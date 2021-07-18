@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bubudeai.mapper.ContentMapper">
+
+    <insert id="addArticle" parameterType="com.bubudeai.entity.Contents" useGeneratedKeys="true" keyProperty="tid">
+        insert into t_contents
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            title,tabstract,titlePic,content,tauthor,created,lastchange,gid,
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{title,jdbcType=VARCHAR},#{tabstract,jdbcType=VARCHAR},#{titlePic,jdbcType=VARCHAR},#{content,jdbcType=LONGVARCHAR},
+            #{tauthor,jdbcType=VARCHAR},#{created,jdbcType=DATE},#{lastchange,jdbcType=DATE},#{gid,jdbcType=INTEGER},
+        </trim>
+    </insert>
+
+    <select id="queryContentById" resultType="com.bubudeai.entity.Contents" parameterType="int">
+        select tid,title,tabstract,lastchange,gid from t_contents where gid =#{gid}
+    </select>
+    
+    <select id="queryContent" parameterType="int" resultType="com.bubudeai.entity.Contents">
+        SELECT title,content,lastchange,titlePic FROM t_contents where tid=#{tid}
+    </select>
+</mapper>

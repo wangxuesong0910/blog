@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bubudeai.mapper.GroupMapper">
+
+    <insert id="addGroup" parameterType="com.bubudeai.entity.Group" useGeneratedKeys="true" keyProperty="gid">
+        INSERT INTO t_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            gname,created,
+        </trim>
+        <trim prefix="VALUE(" suffix=")" suffixOverrides=",">
+            #{gname,jdbcType=VARCHAR},#{created,jdbcType=DATE},
+        </trim>
+    </insert>
+
+    <select id="queryAllGroup" resultType="com.bubudeai.entity.Group">
+        select gid,gname,created from t_group
+    </select>
+
+    <delete id="deleteGroup" parameterType="int">
+        DELETE FROM t_group WHERE gid=#{gid}
+    </delete>
+</mapper>

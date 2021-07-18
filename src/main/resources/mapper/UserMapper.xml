@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bubudeai.mapper.UserMapper">
+
+    <!--    id：跟接口中的方法名对应     resultType填写接口方法中的泛型类-->
+    <select id="queryUser" parameterType="string" resultType="com.bubudeai.entity.User">
+    select * from t_user where username = #{username}
+  </select>
+</mapper>

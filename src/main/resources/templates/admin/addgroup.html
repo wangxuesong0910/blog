@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="~{common/header::admin-nav}"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-container">
+            <fieldset class="layui-elem-field">
+                <legend>技术分类</legend>
+                <div class="layui-field-box">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <table class="layui-hide" id="layui-table" lay-skin="nob" lay-filter="member">
+                            </table>
+                        </div>
+                        <div class="layui-card-body ">
+                            <script type="text/html" id="barDemo">
+                                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            <div style="padding: 15px;">技术分类主体区域</div>
+            <form class="layui-form layui-form-pane" id="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">技术分类名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="gname" lay-verify="title" placeholder="请输入名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-bg-cyan" id="layui-btn" lay-submit="" lay-filter="demo2">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['form', 'table'], function () {
+        var form = layui.form, table = layui.table;
+        table.render({
+            elem: '#layui-table'
+            , url: '/group/all'
+            , page: false
+            , cols: [
+                [
+                    {field: 'gid', title: '技术编号'}
+                    , {field: 'gname', title: '技术名称'}
+                    , {field: 'created', title: '创建时间'}
+                    ,{title:'操作', align:'center',toolbar: '#barDemo' }
+                ]
+            ]
+        });
+
+        form.verify({
+            title:function (value) {
+                if (value===""){
+                    return'不能为空';
+                }
+            }
+        });
+
+        //监听工具条
+        table.on('tool(member)',function (obj) {
+            var data = obj.data;
+            if (obj.event ==='del'){
+                layer.confirm('是否删除？',function (index) {
+                    $.ajax({
+                        url:"/group/delete",
+                        type: 'get',
+                        data:{gid:data.gid},
+                        success:function (data) {
+                            alert("操作成功");
+                            location.reload();
+                        },
+                    });
+                });
+            }
+        });
+
+        form.on('submit(demo2)', function (data) {
+            $.ajax({
+                url: '/group/add',
+                type: 'post',
+                data: $("#layui-form ").serialize(),
+                success: function (data) {
+                    if (data.msg == "操作成功") {
+                        alert("操作成功");
+                        location.reload();
+                    } else {
+                        alert("添加失败");
+                    }
+                }
+            });
+            return false;
+        })
+
+    });
+
+</script>
+</body>
+</html>

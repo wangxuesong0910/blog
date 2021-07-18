@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<!--<header th:fragment="header-nav">-->
+<!--    <ul class="layui-nav" lay-filter="demo">-->
+<!--        <img src="/images/tree.png" height="60" width="60" style="margin-left: -3ex;">-->
+<!--        <li class="layui-nav-item ">-->
+<!--          <a href="javascript:;">Java基础</a>-->
+<!--          -->
+<!--        </li>-->
+
+<!--        <li class="layui-nav-item layui-this" ><a href="javascript:;">数据库</a>-->
+<!--            <dl class="layui-nav-child">-->
+<!--                <dd><a th:href="@{/common/blog}">MySQL</a></dd>-->
+<!--                <dd><a th:href="@{/common/blog}" th:value="1">MyBatis</a></dd>-->
+<!--                <dd><a href="">Redis</a></dd>-->
+<!--                <dd><a href="">SpringCloud</a></dd>-->
+<!--              </dl>-->
+<!--        </li>-->
+<!--        <li class="layui-nav-item"><a href="javascript:;">JavaWeb</a>-->
+<!--            <dl class="layui-nav-child">-->
+<!--                <dd><a href="">HTML</a></dd>-->
+<!--                <dd><a href="">CSS</a></dd>-->
+<!--                <dd><a href="">javascript</a></dd>-->
+<!--                <dd><a href="">Tomcat</a></dd>-->
+<!--                <dd><a href="">Cookie&Session</a></dd>-->
+<!--                <dd><a href="">Servlet</a></dd>-->
+<!--                <dd><a href="">AJAX</a></dd>-->
+<!--                <dd><a href="">JSP</a></dd>-->
+<!--                <dd><a href="">Vue</a></dd>-->
+<!--              </dl>-->
+<!--        </li>-->
+<!--        <li class="layui-nav-item"><a href="javascript:;">Spring全家桶</a>-->
+<!--            <dl class="layui-nav-child">-->
+<!--                <dd><a href="">Spring5</a></dd>-->
+<!--                <dd><a href="">SpringMVC</a></dd>-->
+<!--                <dd><a href="">SpringBoot</a></dd>-->
+<!--                <dd><a href="">SpringCloud</a></dd>-->
+<!--              </dl>-->
+<!--        </li>-->
+<!--        <li class="layui-nav-item"><a href="">Linux</a></li>-->
+<!--        <li class="layui-nav-item"><a href="">Docker</a></li>-->
+<!--        <li class="layui-nav-item"><a href="">Java设计模式</a></li>-->
+<!--        <li class="layui-nav-item"><a href="">JVM虚拟机</a></li>-->
+<!--        -->
+<!--        <li class="layui-nav-item">-->
+<!--          <a href="javascript:;">解决方案</a>-->
+<!--          <dl class="layui-nav-child">-->
+<!--            <dd><a href="">Shiro</a></dd>-->
+<!--            <dd><a href="">Ngnix</a></dd>-->
+<!--            <dd><a href="">Swagger</a></dd>-->
+<!--            <dd><a href="">Druid</a></dd>-->
+<!--            <dd><a href="">Dubbo</a></dd>-->
+<!--            <dd><a href="">Zookeeper</a></dd>-->
+<!--            <dd><a href="">github</a></dd>-->
+<!--          </dl>-->
+<!--        </li>-->
+
+<!--        <li class="layui-nav-item" lay-unselect="">-->
+<!--            <a href="javascript:;"><img src="/images/github.png" class="layui-nav-img">源码</a>-->
+<!--            <dl class="layui-nav-child">-->
+<!--              <dd><a href="javascript:;">博客源码</a></dd>-->
+<!--              <dd><a href="javascript:;">关心家人源码</a></dd>-->
+<!--              <dd><a href="javascript:;">待续...</a></dd>-->
+<!--            </dl>-->
+<!--          </li>-->
+<!--      </ul>-->
+<!--</header>-->
+
+<header th:fragment="admin-nav">
+
+        <div class="layui-header">
+            <div class="layui-logo">博客后台</div>
+            <!-- 头部区域（可配合layui 已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="">nav 1</a></li>
+                <li class="layui-nav-item"><a href="">nav 2</a></li>
+                <li class="layui-nav-item"><a href="">nav 3</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">nav groups</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">menu 11</a></dd>
+                        <dd><a href="">menu 22</a></dd>
+                        <dd><a href="">menu 33</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="/images/tree.png" class="layui-nav-img">
+                        <span th:text="${session.user.username}"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item"><a href="">注销</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" th:href="@{/admin/add}">撰写文章</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">修改文章</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">更新文章</a></dd>
+                            <dd><a href="javascript:;">删除文章</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a th:href="@{/admin/addgroup}">增加类目</a></li>
+                    <li class="layui-nav-item"><a href="">the links</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+</header>
+</html>

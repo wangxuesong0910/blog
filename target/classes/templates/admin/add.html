@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="~{common/header::admin-nav}"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-container">
+            <!-- 内容主体区域 -->
+            <div class="layui-row">
+                <div class="layui-col-md10">
+
+                    <!-- 内容主体区域 -->
+                    <div style="padding: 15px;">撰写文章页面</div>
+
+                    <form class="layui-form" id="layui-form" action="" lay-filter="example">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分类选择</label>
+                            <div class="layui-input-block" >
+                                <select name="interest" lay-filter="groups"  id="connectName">
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">摘要</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="请输入内容" class="layui-textarea" name="tabstract"></textarea>
+                            </div>
+                        </div>
+
+<!--                        这是博客文章编写标签-->
+                        <div id="test-editor">
+                                <textarea style="display:none" name="content">
+                                </textarea>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn" id="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("test-editor", {
+            width  : "100%",
+            height : "500px",
+            path: "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/",
+            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],//支持接收的图片上传的格式
+            imageUploadURL : "/admin/uploadFile" //你的controller里为上传图片所设计的路径
+        });
+    });
+</script>
+<script>
+    //JavaScript代码区域
+    layui.use('form', function () {
+        var form = layui.form;
+            $.ajax({
+                url:"/group/all",
+                type:"GET",
+                success:function (data) {
+                    //给一个默认值（‘请选择’）
+                    var opt = '<option value="" selected=""></option>';
+                    for (var i in data.data){
+                        opt += '<option value = "' + data.data[i].gid + '">' + data.data[i].gname + '</option>'
+                    }
+                    $("#connectName").html(opt);
+                    form.render('select');//需要渲染一下
+                },
+                dataType:"json"
+            });
+
+        form.verify({
+            title:function (value) {
+                if (value==""){
+                    return'标题不能为空';
+                }
+            }
+        });
+
+    });
+    $(function () {
+        // layui.use()
+        $("#layui-btn").click(function () {
+            $.ajax({
+                url:"/content/add",
+                type:"POST",
+                data:$("#layui-form").serialize(),
+                success:function (data) {
+                    if (data.msg == "操作成功") {
+                        alert("操作成功");
+                        location.reload();
+                    } else {
+                        alert("添加失败");
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+</body>
+</html>

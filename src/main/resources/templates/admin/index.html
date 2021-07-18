@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="~{common/header::admin-nav}"></div>
+
+    <div class="layui-body">
+        <div class="layui-container">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">后台主页</div>
+            <div class="layui-row">
+                <div class="layui-col-md9">
+                    你的内容 9/12
+
+                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
+                        <div class="layui-col-md10">
+                            <div class="layui-panel layui-bg-cyan">
+                                <div style="padding: 50px 30px;">一个面板</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
+                        <div class="layui-col-md10">
+                            <div class="layui-card">
+                                <div class="layui-card-header layui-bg-cyan">卡片面板</div>
+                                <div class="layui-card-body">
+                                    卡片式面板面板通常用于非白色背景色的主体内<br>
+                                    从而映衬出边框投影
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
+                        <div class="layui-col-md10">
+                            <div class="layui-card">
+                                <div class="layui-card-header layui-bg-cyan">卡片面板</div>
+                                <div class="layui-card-body">
+                                    卡片式面板面板通常用于非白色背景色的主体内<br>
+                                    从而映衬出边框投影
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-row " style="margin-top: 300px;">
+    <form class="layui-form" id="layui-form" lay-filter="example">
+
+
+        <div class="layui-form-item layui-col-md-offset5">
+            <label class="layui-form-label">用户名：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入用户名"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-md-offset5">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <span id="msg" style="color: orangered;font-size: 20px;"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-md-offset5">
+            <div class="layui-input-block">
+                <button type="submit" id="layui-btn"
+                        class="layui-btn layui-btn-primary layui-bg-cyan  layui-btn-lg layui-btn-radius" lay-submit=""
+                        lay-filter="demo1" style="margin-left: 50px">登录
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        // layui.use()
+        $("#layui-btn").click(function () {
+          $.ajax({
+            url: '/user/login',
+              type:'post',
+            data: $("#layui-form").serialize(),
+            success: function (data) {
+              if (data.msg == "操作成功") {
+                location.href = '/admin/admin';
+              } else {
+                $("#msg").text("用户名或密码错误");
+              }
+            }
+          });
+          return false;
+        });
+
+    })
+</script>
+</body>
+
+</html>
