@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     UserMapper userMapper;
 
@@ -37,6 +37,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     public Result login(@RequestParam(name = "username")String username,  @RequestParam(name = "password")String password,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
+
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的登录数据
@@ -56,6 +57,15 @@ public class UserController {
 
     }
 
+    @ApiOperation("登录")
+    @RequestMapping("/logout")
+    public String logOut(HttpServletRequest httpServletRequest){
+        //删除session值
+        httpServletRequest.removeAttribute("user");
+        //使当前会话无效，取消任何绑定到它的对象的绑定
+        httpServletRequest.getSession().invalidate();
+        return "admin/login";
+    }
 
 
 

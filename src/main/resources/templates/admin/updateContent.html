@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="~{common/header::admin-nav}"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-container">
+            <!-- 内容主体区域 -->
+            <div class="layui-row">
+                <div class="layui-col-md12">
+
+                    <!-- 内容主体区域 -->
+                    <div style="padding: 15px;">修改文章页面</div>
+                    <form class="layui-form layui-form-pane" id="layui-form" action="" lay-filter="example">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" id="title">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分类选择</label>
+                            <div class="layui-input-block" >
+                                <select name="interest" lay-filter="groups"  id="connectName">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">作者</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tauthor" lay-verify="tauthor" autocomplete="off" placeholder="作者" class="layui-input" id="author">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提交时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="test1">
+                            </div>
+                        </div>
+
+                         <div class="layui-inline">
+
+                             <label class="layui-form-label">提交时间</label>
+                             <div class="layui-input-inline">
+                                 <input type="text" class="layui-input" id="test2">
+                             </div>
+                        </div>
+
+                        </div>
+
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">摘要</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="摘要" class="layui-textarea" name="tabstract" id="tabstract"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-form-text">
+                            <!--                        这是博客文章编写标签-->
+                            <div id="test-editor" class="layui-input-block">
+                                <textarea  name="content">
+                                </textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn" id="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js}"></script>
+<script th:src="@{../editormd/editormd.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("test-editor", {
+            width  : "100%",
+            height : "640px",
+            syncScrolling : "single",
+            path: "../editormd/lib/",
+            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],//支持接收的图片上传的格式
+            imageUploadURL : "/admin/uploadFile" //你的controller里为上传图片所设计的路径
+        });
+    });
+</script>
+<script>
+
+    //执行一个laydate实例
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1',
+            format:'yyyy-MM-dd HH:mm:ss'//指定元素
+        });
+        laydate.render({
+            elem: '#test2',
+            format:'yyyy-MM-dd HH:mm:ss'//指定元素
+        });
+    });
+    //JavaScript代码区域
+    layui.use('form', function () {
+        var form = layui.form;
+
+        $.ajax({
+            url:"/content/queryForUpdate",
+            async: false,
+            type:"GET",
+            //接收到文章列表页面传递的tid值，调用url获取文章并填充页面
+            data:{tid:[[${tid}]]},
+            success:function (data) {
+                $("#title").val(data.data.contents.title).html(data.data.contents.title);
+                $("#author").val(data.data.contents.tauthor);
+                $("#test1").val(data.created);
+                $("#test2").val(data.lastchange);
+                $("#tabstract").val(data.data.contents.tabstract);
+                $(".editormd-markdown-textarea").val(data.data.contents.content);
+                console.log(data.data.contents.content);
+                $.ajax({
+                    url:"/group/all",
+                    type:"GET",
+                    success:function (datas) {
+
+                        //给一个默认值（‘请选择’）
+                        var opt = '<option  value = "' + data.data.contents.gid + '">' + data.data.gname + '</option>';
+
+                        for (var i in datas.data){
+                            if (data.data.contents.gid != datas.data[i].gid){
+                            opt += '<option value = "' + datas.data[i].gid + '">' + datas.data[i].gname + '</option>'
+                            }
+                        }
+                        $("#connectName").html(opt);
+                        form.render('select');//需要渲染一下
+                    },
+                    dataType:"json"
+                });
+
+            },
+            dataType:"json"
+        });
+
+        form.verify({
+            title:function (value) {
+                if (value==""){
+                    return'标题不能为空';
+                }
+            }
+        });
+
+    });
+    $(function () {
+
+        // layui.use()
+        $("#layui-btn").click(function () {
+            if ($("#title").val()==''){
+                alert("标题不能为空");
+                form.title.focus();
+                return false;
+            }
+            if ($("#connectName").val()==''){
+                alert("分类不能为空");
+                form.title.focus();
+                return false;
+            }
+            $.ajax({
+                url:"/content/updateContent",
+                type:"POST",
+                data:{tid:[[${tid}]]
+                    ,title:$("#title").val()
+                    ,interest:$("#connectName").val()
+                    ,tabstract:$("#tabstract").val()
+                    ,content:$(".editormd-markdown-textarea").val()
+                    ,tauthor:$("#author").val()
+                    ,created:$("#test1").val()
+                    ,lastchange:$("#test2").val()},
+                success:function (data) {
+                    if (data.msg == "操作成功") {
+                        alert("操作成功");
+                        location.reload();
+                    } else {
+                        alert("添加失败");
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    });
+
+</script>
+</body>
+</html>

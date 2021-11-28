@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -24,10 +27,32 @@ public class DateUtils {
      * 格式化：从Date到String
      * @return
      */
-    public static String formatTime(Date date){
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format = sd.format(date);
+    public static String formatTime(LocalDateTime date){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String format = df.format(date);
         return format;
+    }
+
+
+    /**
+     * 解析：从String到Date
+     */
+    public static LocalDateTime formatTime(String time){
+
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime parse = LocalDateTime.parse(time, df);
+
+        return parse;
+    }
+
+    public static LocalDate getLocalDate(){
+        LocalDate now = LocalDate.now();
+        return now;
+    }
+
+    public static LocalDateTime getLocalDateTime(){
+        return LocalDateTime.now();
     }
 
 }

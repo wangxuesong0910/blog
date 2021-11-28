@@ -1,5 +1,8 @@
 package com.bubudeai;
 
+import com.bubudeai.dto.ContentListDto;
+import com.bubudeai.dto.DeleteGroupDto;
+import com.bubudeai.dto.UpdateContentDto;
 import com.bubudeai.entity.Contents;
 import com.bubudeai.entity.Group;
 import com.bubudeai.entity.User;
@@ -8,6 +11,7 @@ import com.bubudeai.mapper.GroupMapper;
 import com.bubudeai.mapper.UserMapper;
 import com.bubudeai.service.ContentService;
 import com.bubudeai.service.GroupService;
+import com.bubudeai.utils.DateUtils;
 import com.github.pagehelper.PageRowBounds;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.jupiter.api.Test;
@@ -17,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,17 +40,18 @@ class MysiteBlogApplicationTests {
 
     @Test
     void contextLoads() {
+
         Contents contents = new Contents();
         for (int i = 0; i <20 ; i++) {
 
-        contents.setTitle("Docker文档"+"【"+i+"】");
-        contents.setTabstract("Docker文档常用命令"+"【"+i+"】"+"集");
+        contents.setTitle("JVM"+"【"+i+"】");
+        contents.setTabstract("JVM摘要"+"【"+i+"】"+"集");
         contents.setTitlePic("");
-        contents.setContent("DOCKER，我们需要用到PS1，PS1是Linux终端用户的一个环境变量，用来说明命令行提示符的设置。在终端输入命令：#set，即可在输出中找到关于PS1的定义如下：");
+        contents.setContent("引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。");
         contents.setTauthor("王雪松");
-        contents.setCreated(new Date());
-        contents.setLastchange(new Date());
-        contents.setGid(3);
+        contents.setCreated(DateUtils.getLocalDateTime());
+        contents.setLastchange(DateUtils.getLocalDateTime());
+        contents.setGid(1);
         int ii = contentMapper.addArticle(contents);
         System.out.println(ii);
         }
@@ -112,5 +118,67 @@ class MysiteBlogApplicationTests {
     void contextLoad6(){
         Contents contents = contentMapper.queryContent(9);
         System.out.println(contents);
+    }
+
+    @Test
+    void contextLoad7(){
+        List<ContentListDto> java = contentService.queryContentList("Java");
+        for (ContentListDto con: java
+             ) {
+            System.out.println(con.toString());
+        }
+    }
+
+    @Test
+    void contextLoad8(){
+        List<Group> groups = groupMapper.queryAllGroup();
+        for (Group g:groups
+             ) {
+            System.out.println(g);
+        }
+    }
+
+    @Test
+    void contextLoad9(){
+        UpdateContentDto updateContentDto = contentMapper.queryContentForUpdate(1);
+        System.out.println(updateContentDto);
+
+    }
+
+    @Test
+    void contextLoad10(){
+        Contents contents = new Contents();
+        contents.setTid(13);
+        contents.setTitle("更新功能测试1");
+        contents.setTabstract("测试更新功能1");
+        contents.setContent("测试更新功能contents");
+        contents.setTauthor("王雪松1");
+        contents.setCreated(DateUtils.getLocalDateTime());
+        contents.setLastchange(DateUtils.getLocalDateTime());
+        contents.setGid(6);
+        int i = contentMapper.updateContent(contents);
+        System.out.println(i);
+    }
+
+    @Test
+    void contextLoad11(){
+        Group group = groupMapper.queryGroupForUpdate(1);
+        System.out.println(group);
+    }
+
+    @Test
+    void contextLoad12(){
+        List<DeleteGroupDto> deleteGroupDtos = groupMapper.queryContentByGroupID(33);
+        boolean empty = deleteGroupDtos.isEmpty();
+        System.out.println(empty);
+    }
+
+    @Test
+    void contextLoad13(){
+        Calendar instance = Calendar.getInstance();
+        Date time = instance.getTime();
+        System.out.println(time);
+        Date date = new Date();
+        System.out.println(date);
     }
 }

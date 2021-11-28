@@ -3,15 +3,24 @@ package com.bubudeai.config;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator d = new DefaultAdvisorAutoProxyCreator();
+        d.setProxyTargetClass(true);
+        return d;
+    }
 
 //    @Autowired
 //    DefaultWebSessionManager defaultSessionManager;
@@ -45,7 +54,8 @@ public class ShiroConfig {
         // <!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //拦截更新请求
-        filterMap.put("/admin/admin", "authc");
+        filterMap.put("/admin/toLogin","anon");
+        filterMap.put("/admin/**", "authc");
 
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面

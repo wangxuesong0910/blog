@@ -1,20 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <link rel="stylesheet" th:href="@{../layui/css/layui.css}">-->
-<!--    <title>主页</title>-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{../css/index.css}">
+  <script th:src="@{http://libs.baidu.com/jquery/2.0.0/jquery.min.js}"></script>
+</head>
 
-<!--</head>-->
-<div th:replace="~{common/head::head}"></div>
-<body >
+<body class="home">
 
-<div class="layui-btn-container">
-    <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius"><a th:href="@{/common/blog}">进入博客</a></button>
+<div th:replace="~{common/header::blog-nav}">
 </div>
-<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
-<script th:src="@{https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js}"></script>
+
+  <div class="main">
+
+    <div class="home-title">
+      <h1 class="title">这是博客主页</h1>
+      <h2 class="subtitle">此主页风格仿照IlOVEPDF网站风格创建</h2>
+    </div>
+    <div class="tools">
+      <div class="tools-container">
+
+
+      </div>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="container"></div>
+  </div>
+
+
+<!-- 公共页面的引入，此引入方法不能在公共页面有html body等标签 -->
+  <script type="text/javascript"  th:inline="javascript" >
+    $(".header").load("common/header.html");
+    //页面加载即开始执行查询文章列表功能，根据之前主页点击的name名称查询
+    $(function () {
+      queryAllGroup();
+    });
+    function queryAllGroup() {
+      $.ajax({
+        url:"/group/all",
+        // data:{name:name},
+        async: false,
+        type:"GET",
+        success:function (data) {
+          console.log("服务器返回的数据是：" + data.msg);
+          console.log("服务器返回的数据是：" + data.data.length);
+          for (var i =0;i<data.data.length;i++){
+            console.log("标题："+data.data[i].title);
+            data.data[i].gname.toString();
+            if (data.data.length == 0){
+              var html='<div class="tools-item">'+
+                      '<a href="#">'+
+                      '<div class="tools-item-icon">'+
+                      '<svg t="1637564777125" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6357" width="32" height="32"><path d="M945.643909 899.025661 767.204891 720.555943c-1.134847-1.136893-2.585895-1.641383-3.815909-2.555196 58.732659-68.858274 94.376461-158.0302 94.376461-255.623935 0-217.74114-176.577624-394.350486-394.350486-394.350486-217.771839 0-394.350486 176.608324-394.350486 394.350486 0 34.792411 4.952802 68.322062 13.406335 100.464109 10.219759-15.58393 36.712133-52.364625 52.549843-59.237149-1.702782-13.532201-2.838651-27.220968-2.838651-41.22696 0-182.917006 148.31493-331.264683 331.264683-331.264683s331.263659 148.346653 331.263659 331.264683c0 143.771451-91.758844 265.811971-219.7284 311.643809-6.088672 25.960255-15.929808 50.720172-29.335119 73.747631 65.640999-14.005992 125.32124-44.097334 174.432775-86.301552 0.914836 1.199315 1.419326 2.648316 2.524496 3.784186l178.468694 178.375573c12.33391 12.396331 32.268938 12.396331 44.601824 0C958.007495 931.355997 958.007495 911.358547 945.643909 899.025661L945.643909 899.025661zM480.417189 541.360701c-45.421492-45.421492-105.827257-70.436212-170.111353-70.436212-64.284095 0-124.657114 25.01472-170.07963 70.436212-45.453215 45.422516-70.466911 105.826234-70.466911 170.109306 0 64.285119 25.013697 124.658138 70.466911 170.111353 45.453215 45.454238 105.857956 70.465888 170.111353 70.465888 0 0 0 0 0.030699 0 64.253396 0 124.659161-25.045419 170.07963-70.465888 45.422516-45.388746 70.437236-105.826234 70.437236-170.111353C550.853401 647.217634 525.837658 586.812893 480.417189 541.360701zM435.815365 836.979536c-33.530674 33.531698-78.100776 51.982932-125.477806 51.982932l0 0c-47.408753 0-92.010577-18.48398-125.509529-51.982932-33.529651-33.529651-51.982932-78.099752-51.982932-125.509529 0-47.408753 18.453281-91.977831 51.982932-125.506459 33.529651-33.532721 78.069053-51.953256 125.477806-51.953256 47.409776 0 91.978854 18.453281 125.509529 51.953256 33.529651 33.529651 51.981908 78.097706 51.981908 125.506459C487.797273 758.911506 469.345016 803.450908 435.815365 836.979536zM420.895561 600.914052c-12.33391-12.335956-32.268938-12.335956-44.601824 0l-65.988924 65.986877-65.9879-65.986877c-12.332886-12.335956-32.267914-12.335956-44.600801 0-12.33391 12.332886-12.33391 32.266891 0 44.601824l65.986877 65.985854-65.986877 65.9879c-12.33391 12.332886-12.33391 32.267914 0 44.601824 6.15007 6.151094 14.226003 9.242502 22.299889 9.242502 8.075933 0 16.150842-3.091408 22.300912-9.242502l65.9879-65.986877 65.988924 65.986877c6.15007 6.151094 14.224979 9.242502 22.299889 9.242502 8.075933 0 16.150842-3.091408 22.300912-9.242502 12.33391-12.33391 12.33391-32.268938 0-44.601824l-65.986877-65.9879 65.986877-65.985854C433.196725 633.212666 433.196725 613.246939 420.895561 600.914052L420.895561 600.914052z" p-id="6358" fill="#d81e06"></path></svg>'+
+                      '</div>'+
+                      '<h3>'+
+                      "无数据"+
+                      '</h3>'+
+                      '<div class="tools-item-content">'+
+                      '<P>'+
+                      "无内容"+
+                      '</P>'+
+                      '</div>'+
+                      '</a>'+
+                      '</div>';
+              $(".tools-container").append(html);
+            }else {
+              var html='<div class="tools-item">'+
+                      '<a href="/gocontent?name='+data.data[i].gname.toString()+'">'+
+                      '<div class="tools-item-icon">'+
+                      data.data[i].gsvg+
+                      '</div>'+
+                      '<h3>'+
+                      data.data[i].gname+
+                      '</h3>'+
+                      '<div class="tools-item-content">'+
+                      '<P>'+
+                      data.data[i].gcontent+
+                      '</P>'+
+                      '</div>'+
+                      '</a>'+
+                      '</div>';
+              $(".tools-container").append(html);
+            }
+          }
+
+        },
+        dataType:"json"
+      });
+    }
+  </script>
+
+<script>
+  $('.wechat').on('click', function () {
+    $('.ewm').toggle();　　//切换元素的可见状态
+    return false;
+  });
+  //点击其他地方，二维码隐藏
+  $(document).on({"click": function(e){
+      var src = e.target;
+      if(src.id && src.id ==="ewm"){
+        return false;
+      }else{
+        $('.ewm').hide();
+      }
+    }
+  });
+</script>
 </body>
 </html>

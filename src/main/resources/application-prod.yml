@@ -1,4 +1,5 @@
-
+server:
+  port: 443
 spring:
   datasource:
     name: mysite
@@ -6,8 +7,8 @@ spring:
     #druid相关配置
     druid:
       username: root
-      password: wo1021gstar
-      url: jdbc:mysql://101.37.27.120:3306/mysite?useUnicode=true&characterEncoding=utf-8
+      password: root
+      url: jdbc:mysql://127.0.0.1:3306/mysite?useUnicode=true&characterEncoding=utf-8
       driver-class-name: com.mysql.jdbc.Driver
       #配置初始化大小/最小/最大
       initial-size: 10
@@ -31,10 +32,6 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       useGlobalDataSourceStat: true
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-
-
-
-
   thymeleaf:
     prefix: classpath:/templates/
     check-template-location: true
@@ -42,12 +39,14 @@ spring:
     encoding: UTF-8
     mode: LEGACYHTML5
     cache: true
+  aop:
+    auto: true
+    proxy-target-class: true
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.bubudeai.entity
 
-server:
-  port: 443
+
 
 

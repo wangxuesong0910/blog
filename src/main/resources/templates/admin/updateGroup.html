@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{common/head::head}"></div>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="~{common/header::admin-nav}"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-container">
+            <!-- 内容主体区域 -->
+            <div style="padding-left: 20%;font-size:30px;padding-bottom: 20px ">
+            </div>
+            <form class="layui-form layui-form-pane" action="" id="layui-form" style="padding-left: 20%">
+                <span class="layui-badge" id="gid" name="gid"></span>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">技术分类名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="gname" name="gname" lay-verify="title" placeholder="请输入名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">提交时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="test1" name="created">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text" style="width: 70%">
+                    <label class="layui-form-label">技术介绍</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="技术介绍" class="layui-textarea" name="gcontent" id="gcontent"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text" style="width: 70%;">
+                    <label class="layui-form-label">svg代码</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="svg代码width和height为50最佳,svg为矢量图标" style="height: 320px" class="layui-textarea" name="gsvg" id="gsvg"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-bg-cyan" id="layui-btn" lay-submit="" lay-filter="demo2">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{../layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js}"></script>
+
+
+<script>
+
+    //执行一个laydate实例
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1',
+            format:'yyyy-MM-dd HH:mm:ss'//指定元素
+        });
+
+    });
+    //JavaScript代码区域
+    layui.use('form', function () {
+        var form = layui.form;
+
+        $.ajax({
+            url:"/group/queryForUpdate",
+            async: false,
+            type:"GET",
+            //接收到文章列表页面传递的tid值，调用url获取文章并填充页面
+            data:{gid:[[${gid}]]},
+            success:function (data) {
+                $("#gid").html([[${gid}]]);
+                $("#gname").html(data.data.gname).val(data.data.gname);
+                $("#test1").html(data.created).val(data.created);
+                $("#gcontent").html(data.data.gcontent).val(data.data.gcontent);
+                $("#gsvg").html(data.data.gsvg).val(data.data.gsvg);
+
+
+            },
+            dataType:"json"
+        });
+
+
+
+        form.verify({
+            title:function (value) {
+                if (value==""){
+                    return'标题不能为空';
+                }
+            }
+        });
+
+    });
+    $(function () {
+
+        // layui.use()
+        $("#layui-btn").click(function () {
+            if ($("#gname").val()==''){
+                alert("标题不能为空");
+                form.gname.focus();
+                return false;
+            }
+
+            $.ajax({
+                url:"/group/update",
+                type:"POST",
+                // data:$("#layui-form").serialize(),
+                data:{gid:[[${gid}]]
+                    ,gname:$("#gname").val()
+                    ,created:$("#test1").val()
+                    ,gcontent:$("#gcontent").val()
+                    ,gsvg:$("#gsvg").val()},
+                success:function (data) {
+                    if (data.msg == "操作成功") {
+                        alert("操作成功");
+                        location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    });
+
+</script>
+</body>
+</html>

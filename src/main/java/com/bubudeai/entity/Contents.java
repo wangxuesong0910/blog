@@ -4,7 +4,11 @@ import lombok.Data;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -13,10 +17,12 @@ public class Contents {
     /**
      * 文章主键
      */
+
     private Integer tid;
     /**
      *文章标题
      */
+
     private String title;
     /**
      *摘要
@@ -37,13 +43,14 @@ public class Contents {
     /**
      *创建时间
      */
-    private Date created;
+    private LocalDateTime created;
     /**
      *最后修改时间
      */
-    private Date lastchange;
+    private LocalDateTime lastchange;
     /**
      *属组id
      */
+    @NotNull(message = "技术分类gid不能为空")
     private Integer gid;
 }

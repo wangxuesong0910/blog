@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{../css/index.css}">
+  <script th:src="@{http://libs.baidu.com/jquery/2.0.0/jquery.min.js}"></script>
+
+</head>
+<body class="home">
+<div th:replace="~{common/header::blog-nav}"></div>
+  <div class="main">
+    <div class="home-title">
+      <h1 class="title" th:text="${content}" th:name="${content}"></h1>
+      <h2 class="subtitle">此主页风格仿照IlOVEPDF网站风格创建</h2>
+    </div>
+    <div class="tools tools-main">
+      <div class="tools-container list-container">
+<!--        分页查询的内容填充处-->
+
+      </div>
+      <button id="load" class="load-more">
+        <img src=""  class="ico-load-more"/>
+
+      </button>
+    </div>
+    
+  </div>
+
+  <!-- 公共页面的引入-->
+  <script>
+    $(".header").load("common/header.html");
+    $(function () {
+
+      //每次加载界面首先加载第一次分页内容
+      queryContentList(1);
+      //触发分页查询的页数变量 i；初始值为1，pageHelper 接受的初始页数为1
+      var i = 1;
+      //加载更多按钮点击事件
+      $(".load-more").click(function () {
+        //将变量i 加1
+        i++;
+        //再次进行分页查询
+        queryContentList(i);
+
+      });
+
+      //监听整个窗口的进度条，并触发函数
+      // $(document).ready(function() {
+        // $(document).scroll(function() {
+        //   var dTop = $(document).scrollTop();
+        //   var dHeight = $(document).height();
+        //   var wHeight = $(window).height();
+        //   //当页面大小被获取时，人为缩小浏览器窗口大小，则滚动条到达底部事件不会触发
+        //   if (dTop >= dHeight - wHeight) {
+        //     //滚动条到达底部事件触发
+        //     alert("滚动条已经到达底部为" + $(document).scrollTop());
+        //
+        //   }
+        // });
+      // });
+
+    //页面加载即开始执行查询文章列表功能，根据之前主页点击的name名称查询
+
+    });
+
+    function queryContentList(i) {
+      //将 正在加载 的图标显示出来
+      $(".ico-load-more").attr('src','../images/loding.gif');
+      //获取标题 name 值，此值从后端的Model的content中取出，用来作为分页查询内容的条件
+      var name = $("h1").attr("name");
+      $.ajax({
+        url:"/content/goContentList",
+        data:{name:name,pageNum:i},
+        // async: false,
+        type:"GET",
+        success:function (data) {
+
+          console.log("服务器返回的数据是：" + data.msg);
+          console.log("服务器返回的数据是：" + data.data.length);
+          if(data.data.length == 0){
+          //如果服务器返回的数值的length为 0，说明已经没有数据了，将按钮标签置空
+            $(".load-more").remove();
+            //拼接上一个 “到底了” 的标记 html
+            var empty='<div class="left-block-element">'+
+                    '<div class="list-item">'+
+                    '<div class="list-item-title">'+ "到底啦 "+
+                    '</div>'+
+
+                    '</div>'+
+
+                    '</div>';
+            $(".list-container").append(empty);
+          }else {
+            for (var i =0;i<data.data.length;i++){
+              console.log("标题："+data.data[i].title);
+              console.log("tid："+data.data[i].tid);
+              //循环从data中取出数据，并拼接
+              var html='<div class="left-block-element">'+
+                      '<a href="/goblog?tid='+data.data[i].tid+'">'+
+                      '<div class="list-item">'+
+                      '<div class="list-item-title">'+ data.data[i].title+
+                      '</div>'+
+                      '<div class="list-item-content">'+
+                      '<p>'+ data.data[i].tabstract+
+                      '</p>'+
+                      '</div>'+
+                      '</div>'+
+                      '</a>'+
+                      '</div>';
+              $(".list-container").append(html);
+              //每次拼接完当前分页查询的内容后，将下拉加载更多的图片显示出来
+              $(".ico-load-more").attr('src','../images/icon/more.svg');
+            }
+
+          }
+
+        },
+        dataType:"json"
+      });
+
+    }
+  </script>
+<script>
+  $('.wechat').on('click', function () {
+    $('.ewm').toggle();　　//切换元素的可见状态
+    return false;
+  });
+  //点击其他地方，二维码隐藏
+  $(document).on({"click": function(e){
+      var src = e.target;
+      if(src.id && src.id ==="ewm"){
+        return false;
+      }else{
+        $('.ewm').hide();
+      }
+    }
+  });
+</script>
+</body>
+</html>

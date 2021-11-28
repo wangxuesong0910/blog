@@ -5,18 +5,35 @@
     <insert id="addGroup" parameterType="com.bubudeai.entity.Group" useGeneratedKeys="true" keyProperty="gid">
         INSERT INTO t_group
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            gname,created,
+            gname,created,gcontent,gsvg
         </trim>
         <trim prefix="VALUE(" suffix=")" suffixOverrides=",">
             #{gname,jdbcType=VARCHAR},#{created,jdbcType=DATE},
+            #{gcontent,jdbcType=VARCHAR},#{gsvg,jdbcType=VARCHAR}
         </trim>
     </insert>
 
     <select id="queryAllGroup" resultType="com.bubudeai.entity.Group">
-        select gid,gname,created from t_group
+        select gid,gname,created,gcontent,gsvg from t_group
     </select>
 
     <delete id="deleteGroup" parameterType="int">
         DELETE FROM t_group WHERE gid=#{gid}
     </delete>
+
+    <select id="queryGroupForUpdate" parameterType="int" resultType="com.bubudeai.entity.Group">
+        SELECT  gname,created,gcontent,gsvg FROM t_group WHERE gid = #{gid}
+    </select>
+
+    <update id="updateGroup" parameterType="com.bubudeai.entity.Group" useGeneratedKeys="true" keyProperty="gid">
+        UPDATE t_group SET gname=#{gname} ,created=#{created} ,gcontent=#{gcontent} ,gsvg=#{gsvg}
+        WHERE gid =#{gid}
+    </update>
+
+    <select id="queryContentByGroupID" parameterType="int" resultType="com.bubudeai.dto.DeleteGroupDto">
+        SELECT c.tid
+        FROM t_contents c LEFT JOIN t_group g
+        ON c.gid = g.gid
+        WHERE g.gid =#{gid}
+    </select>
 </mapper>

@@ -1,89 +1,175 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
-<!--<header th:fragment="header-nav">-->
-<!--    <ul class="layui-nav" lay-filter="demo">-->
-<!--        <img src="/images/tree.png" height="60" width="60" style="margin-left: -3ex;">-->
-<!--        <li class="layui-nav-item ">-->
-<!--          <a href="javascript:;">Java基础</a>-->
-<!--          -->
-<!--        </li>-->
 
-<!--        <li class="layui-nav-item layui-this" ><a href="javascript:;">数据库</a>-->
-<!--            <dl class="layui-nav-child">-->
-<!--                <dd><a th:href="@{/common/blog}">MySQL</a></dd>-->
-<!--                <dd><a th:href="@{/common/blog}" th:value="1">MyBatis</a></dd>-->
-<!--                <dd><a href="">Redis</a></dd>-->
-<!--                <dd><a href="">SpringCloud</a></dd>-->
-<!--              </dl>-->
-<!--        </li>-->
-<!--        <li class="layui-nav-item"><a href="javascript:;">JavaWeb</a>-->
-<!--            <dl class="layui-nav-child">-->
-<!--                <dd><a href="">HTML</a></dd>-->
-<!--                <dd><a href="">CSS</a></dd>-->
-<!--                <dd><a href="">javascript</a></dd>-->
-<!--                <dd><a href="">Tomcat</a></dd>-->
-<!--                <dd><a href="">Cookie&Session</a></dd>-->
-<!--                <dd><a href="">Servlet</a></dd>-->
-<!--                <dd><a href="">AJAX</a></dd>-->
-<!--                <dd><a href="">JSP</a></dd>-->
-<!--                <dd><a href="">Vue</a></dd>-->
-<!--              </dl>-->
-<!--        </li>-->
-<!--        <li class="layui-nav-item"><a href="javascript:;">Spring全家桶</a>-->
-<!--            <dl class="layui-nav-child">-->
-<!--                <dd><a href="">Spring5</a></dd>-->
-<!--                <dd><a href="">SpringMVC</a></dd>-->
-<!--                <dd><a href="">SpringBoot</a></dd>-->
-<!--                <dd><a href="">SpringCloud</a></dd>-->
-<!--              </dl>-->
-<!--        </li>-->
-<!--        <li class="layui-nav-item"><a href="">Linux</a></li>-->
-<!--        <li class="layui-nav-item"><a href="">Docker</a></li>-->
-<!--        <li class="layui-nav-item"><a href="">Java设计模式</a></li>-->
-<!--        <li class="layui-nav-item"><a href="">JVM虚拟机</a></li>-->
-<!--        -->
-<!--        <li class="layui-nav-item">-->
-<!--          <a href="javascript:;">解决方案</a>-->
-<!--          <dl class="layui-nav-child">-->
-<!--            <dd><a href="">Shiro</a></dd>-->
-<!--            <dd><a href="">Ngnix</a></dd>-->
-<!--            <dd><a href="">Swagger</a></dd>-->
-<!--            <dd><a href="">Druid</a></dd>-->
-<!--            <dd><a href="">Dubbo</a></dd>-->
-<!--            <dd><a href="">Zookeeper</a></dd>-->
-<!--            <dd><a href="">github</a></dd>-->
-<!--          </dl>-->
-<!--        </li>-->
 
-<!--        <li class="layui-nav-item" lay-unselect="">-->
-<!--            <a href="javascript:;"><img src="/images/github.png" class="layui-nav-img">源码</a>-->
-<!--            <dl class="layui-nav-child">-->
-<!--              <dd><a href="javascript:;">博客源码</a></dd>-->
-<!--              <dd><a href="javascript:;">关心家人源码</a></dd>-->
-<!--              <dd><a href="javascript:;">待续...</a></dd>-->
-<!--            </dl>-->
-<!--          </li>-->
-<!--      </ul>-->
-<!--</header>-->
+
+<header th:fragment="blog-nav">
+    <div class="header_main" >
+        <div class="brand">
+            <div class="brand_logo">
+                <a href="#">
+                    <img th:src="@{/images/c5.png}">
+                </a>
+            </div>
+        </div>
+        <div class="header_nav">
+            <div class="main_menu">
+                <ul class="nav" lay-filter="demo">
+
+                    <li class="dropdown dropdown-full">
+            <span>
+              Java<i class="ico ico-down"></i>
+            </span>
+                        <ul class="dropdown-menu-base dropdown-menu-java menu-full menu-full--convert" id="menuBig">
+                            <li>
+                                <ul>
+                                    <li>
+                                        <span><i class="ico-java ico-base"></i><a href="/gocontent?name=Java" id="1" value="Java" name="Java">Java</a></span></li>
+                                    <li><span><i class="ico-jvm ico-base"></i><a href="/gocontent?name=JVM" id="2" value="2">JVM</a></span></li>
+                                    <li><span><i class="ico-design ico-base"></i><a href="/gocontent?name=Java设计模式">Java设计模式</a></span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown dropdown-full">
+            <span>
+              数据库<i class="ico ico-down"></i>
+            </span>
+                        <ul class="dropdown-menu-base dropdown-menu-sql menu-full menu-full--convert">
+                            <li>
+                                <ul>
+                                    <li>
+                                        <span><i class="ico-mysql ico-base"></i><a href="/gocontent?name=MySQL">MySQL</a></span></li>
+                                    <li><span><i class="ico-mybatis ico-base"></i><a href="/gocontent?name=Mybatis">Mybatis</a></span></li>
+                                    <li><span><i class="ico-redis ico-base"></i><a href="/gocontent?name=Redis">Redis</a></span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown dropdown-full">
+            <span>
+              Web<i class="ico ico-down"></i>
+            </span>
+                        <ul class="dropdown-menu-base dropdown-menu-web mega menu-full menu-full--convert">
+                            <li>
+                                <ul>
+                                    <li><span><i class="ico-html ico-base"></i><a href="/gocontent?name=HTML">HTML</a></span></li>
+                                    <li><span><i class="ico-css ico-base"></i><a href="/gocontent?name=CSS">CSS</a></span></li>
+                                    <li><span><i class="ico-js ico-base"></i><a href="/gocontent?name=JavaScript">JavaScript</a></span></li>
+                                    <li><span><i class="ico-jquery ico-base"></i><a href="/gocontent?name=JQuery">JQuery</a></span></li>
+                                    <li><span><i class="ico-vue ico-base"></i><a href="/gocontent?name=Vue">Vue</a></span></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <ul>
+                                    <li><span><i class="ico-tomcat ico-base"></i><a href="/gocontent?name=Tomcat">Tomcat</a></span></li>
+                                    <li><span><i class="ico-jsp ico-base"></i><a href="/gocontent?name=JSP">JSP</a></span></li>
+                                    <li><span><i class="ico-servlet ico-base"></i><a href="/gocontent?name=Servlet">Servlet</a></span></li>
+                                    <li><span><i class="ico-nodejs ico-base"></i><a href="/gocontent?name=NodeJs">Node.js</a></span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown dropdown-full">
+            <span>
+              Spring全家桶<i class="ico ico-down"></i>
+            </span>
+                        <ul class="dropdown-menu-base dropdown-menu-spring mega menu-full menu-full--convert">
+                            <li>
+                                <ul>
+                                    <li><span><i class="ico-spring ico-base"></i><a href="/gocontent?name=Sprnig5">Sprnig5</a></span></li>
+                                    <li><span><i class="ico-springmvc ico-base"></i><a href="/gocontent?name=SpringMVC">SpringMVC</a></span></li>
+                                    <li><span><i class="ico-springboot ico-base"></i><a href="/gocontent?name=SpringBoot">SpringBoot</a></span></li>
+                                    <li><span><i class="ico-springcloud ico-base"></i><a href="/gocontent?name=SpringCloud">SpringCloud</a></span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown dropdown-full">
+            <span>
+              其他...<i class="ico ico-down"></i>
+            </span>
+                        <ul class="dropdown-menu-base dropdown-menu-other mega menu-full menu-full--convert">
+                            <li>
+                                <ul>
+                                    <li><span><i class="ico-linux ico-base"></i><a href="/gocontent?name=Linux">Linux</a></span></li>
+                                    <li><span><i class="ico-ngnix ico-base"></i><a href="/gocontent?name=Ngnix">Ngnix</a></span></li>
+                                    <li><span><i class="ico-swagger ico-base"></i><a href="/gocontent?name=Swagger">Swagger</a></span></li>
+                                    <li><span><i class="ico-dubbo ico-base"></i><a href="/gocontent?name=Dubbo">Dubbo</a></span></li>
+                                    <li><span><i class="ico-zookeeper ico-base"></i><a href="/gocontent?name=zookeeper">zookeeper</a></span></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <ul>
+                                    <li><span><i class="ico-druid ico-base"></i><a href="/gocontent?name=Druid">Druid</a></span></li>
+                                    <li><span><i class="ico-shiro ico-base"></i><a href="/gocontent?name=Shiro">Shiro</a></span></li>
+                                    <li><span><i class="ico-github ico-base"></i><a href="/gocontent?name=GitHub">GitHub</a></span></li>
+                                    <li><span><i class="ico-docker ico-base"></i><a href="/gocontent?name=Docker">Docker</a></span></li>
+                                    <li><span><i class="ico-harmony ico-base"></i><a href="/gocontent?name=HarmonyOS">HarmonyOS</a></span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="top_menu">
+
+            <ul class="nav">
+                <li class="nav_item dropdown">
+                    <i class="ico_topmenu"></i>
+
+                    <ul class="dropdown-menu-base dropdown-menu-all menu-full menu-full--convert">
+                        <li>
+                            <ul>
+                                <li>
+                                    <span><i class="ico-download ico-base"></i><a href="https://github.com/wangxuesong0910/blog">博客源码</a></span></li>
+                                <li><span><i class="ico-care ico-base"></i><a href="#">关心家人going</a></span></li>
+                                <li><span class="wechat"><i class="ico-wechat ico-base"></i><a href="#">咨询作者
+                                </a></span></li>
+                                <li><span><i class="ico-wait ico-base"></i><a href="#">待续</a></span></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </li>
+            </ul>
+            <div class="absolute ewm whitebg" id="ewm">
+                <div class="text_sao red font14">扫一扫，你会了解更多</div>
+                <div><img src="/images/wechat.jpg" /></div>
+            </div>
+        </div>
+
+    </div>
+
+</header>
 
 <header th:fragment="admin-nav">
 
-        <div class="layui-header">
+        <div class="layui-header layui-bg-black">
             <div class="layui-logo">博客后台</div>
             <!-- 头部区域（可配合layui 已有的水平导航） -->
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="">nav 1</a></li>
-                <li class="layui-nav-item"><a href="">nav 2</a></li>
-                <li class="layui-nav-item"><a href="">nav 3</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">nav groups</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">menu 11</a></dd>
-                        <dd><a href="">menu 22</a></dd>
-                        <dd><a href="">menu 33</a></dd>
-                    </dl>
-                </li>
-            </ul>
+<!--            <ul class="layui-nav layui-layout-left">-->
+<!--                <li class="layui-nav-item"><a href="">nav 1</a></li>-->
+<!--                <li class="layui-nav-item"><a href="">nav 2</a></li>-->
+<!--                <li class="layui-nav-item"><a href="">nav 3</a></li>-->
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;">nav groups</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="">menu 11</a></dd>-->
+<!--                        <dd><a href="">menu 22</a></dd>-->
+<!--                        <dd><a href="">menu 33</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+<!--            </ul>-->
+
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
@@ -91,7 +177,7 @@
                         <span th:text="${session.user.username}"></span>
                     </a>
                 </li>
-                <li class="layui-nav-item"><a href="">注销</a></li>
+                <li class="layui-nav-item"><a href="/user/logout">注销</a></li>
             </ul>
         </div>
 
@@ -100,17 +186,24 @@
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                 <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                     <li class="layui-nav-item layui-nav-itemed">
-                        <a class="" th:href="@{/admin/add}">撰写文章</a>
+                        <a class="" th:href="@{/admin/index}">文章列表</a>
                     </li>
                     <li class="layui-nav-item">
-                        <a href="javascript:;">修改文章</a>
+                        <a class="" th:href="@{/admin/addContent}">撰写文章</a>
+
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">技术分类操作</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">更新文章</a></dd>
-                            <dd><a href="javascript:;">删除文章</a></dd>
+<!--                            播客主页上方的导航栏中，显示的博客文章分类，为大分类，例如：数据库-->
+                            <dd><a th:href="@{/admin/groupIndex}">技术分类主页</a></dd>
+                            <dd><a th:href="@{/admin/addgroup}">添加技术分类</a></dd>
+
+
+
                         </dl>
                     </li>
-                    <li class="layui-nav-item"><a th:href="@{/admin/addgroup}">增加类目</a></li>
-                    <li class="layui-nav-item"><a href="">the links</a></li>
+                    <li class="layui-nav-item"><a href="">操作手册及说明</a></li>
                 </ul>
             </div>
         </div>

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 @Configuration
 @EnableSwagger2//开启swagger2
-@Profile({"dev","test"})
+@Profile({"prod","test"})
 public class SwaggerConfig {
     //配置了swagger 的Docket 的bean 实例
     @Bean

@@ -39,7 +39,7 @@ public class DruidConfig {
         HashMap<String,String> initParameters = new HashMap<>();
         //增加配置
         initParameters.put("loginUsername","admin");   //loginUsername固定不能改
-        initParameters.put("loginPassword","wo1021gstar");
+        initParameters.put("loginPassword","admin");
 
         //允许谁能访问
 //        initParameters.put("allow","");//默认允许所有访问

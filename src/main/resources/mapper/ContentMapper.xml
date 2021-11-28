@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bubudeai.mapper.ContentMapper">
 
+    <select id="queryContentList" parameterType="string" resultType="com.bubudeai.dto.ContentListDto">
+        SELECT c.tid,c.title,c.tabstract FROM t_contents c LEFT JOIN t_group g
+        ON c.gid = g.gid WHERE g.gname = #{gname}
+
+    </select>
     <insert id="addArticle" parameterType="com.bubudeai.entity.Contents" useGeneratedKeys="true" keyProperty="tid">
         insert into t_contents
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -20,4 +25,37 @@
     <select id="queryContent" parameterType="int" resultType="com.bubudeai.entity.Contents">
         SELECT title,content,lastchange,titlePic FROM t_contents where tid=#{tid}
     </select>
+
+    <select id="queryContentForUpdate" parameterType="int" resultMap="UpdateContentDto">
+        SELECT c.tid,c.title,c.tabstract,c.content,c.tauthor,c.created,c.lastchange,c.gid,g.gname
+        FROM t_contents c LEFT JOIN t_group g
+        ON c.gid = g.gid
+        WHERE tid = #{tid}
+    </select>
+    <resultMap id="UpdateContentDto" type="com.bubudeai.dto.UpdateContentDto">
+        <result property="gname" column="gname"/>
+        <association property="contents" javaType="com.bubudeai.entity.Contents">
+            <id property="tid" column="tid"/>
+            <result property="title" column="title"/>
+            <result property="tabstract" column="tabstract"/>
+            <result property="content" column="content"/>
+            <result property="tauthor" column="tauthor"/>
+            <result property="created" column="created"/>
+            <result property="lastchange" column="lastchange"/>
+            <result property="gid" column="gid"/>
+        </association>
+    </resultMap>
+
+    <update id="updateContent" parameterType="com.bubudeai.entity.Contents" useGeneratedKeys="true" keyProperty="tid">
+        UPDATE t_contents SET title=#{title},tabstract=#{tabstract},content=#{content},tauthor=#{tauthor},created=#{created},lastchange=#{lastchange},gid=#{gid}
+        WHERE tid=#{tid}
+    </update>
+
+    <select id="queryContentForAdmin" parameterType="int" resultType="com.bubudeai.dto.AdminContentDto">
+        SELECT tid,title FROM t_contents WHERE gid = #{gid}
+    </select>
+
+    <delete id="deleteContent" parameterType="int">
+        DELETE FROM t_contents WHERE tid =#{tid};
+    </delete>
 </mapper>

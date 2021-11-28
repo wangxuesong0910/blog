@@ -18,6 +18,10 @@ public class Result<T>  implements Serializable{
     private T data;
     //分页数据
     private long pages;
+    //格式化提交日期
+    private String created;
+    //格式化修改日期
+    private String lastchange;
 
     public Result() {
     }
@@ -41,6 +45,14 @@ public class Result<T>  implements Serializable{
         this.pages = pages;
     }
 
+    public Result(long code, String msg, T data, String created, String lastchange) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.created = created;
+        this.lastchange = lastchange;
+    }
+
     /**
      * 成功返回结果
      * @param data
@@ -48,7 +60,16 @@ public class Result<T>  implements Serializable{
      * @return
      */
     public static <T> Result<T> succ(T data){
-        return new Result<T>(ResultCode.TABLE_SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data);
+        return new Result<T>(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data);
+    }
+    /**
+     * 查询格式化后的日期 返回结果
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> succ(T data,String created,String lastchange){
+        return new Result<T>(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data,created,lastchange);
     }
     /**
      * 分页查询成功返回结果
@@ -57,7 +78,7 @@ public class Result<T>  implements Serializable{
      * @return
      */
     public static <T> Result<T> succ(T data,long pages){
-        return new Result<T>(ResultCode.TABLE_SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data,pages);
+        return new Result<T>(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data,pages);
     }
 
     /**

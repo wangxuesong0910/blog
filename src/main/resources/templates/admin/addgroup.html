@@ -8,33 +8,38 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div class="layui-container">
-            <fieldset class="layui-elem-field">
-                <legend>技术分类</legend>
-                <div class="layui-field-box">
-                    <div class="layui-card">
-                        <div class="layui-card-body ">
-                            <table class="layui-hide" id="layui-table" lay-skin="nob" lay-filter="member">
-                            </table>
-                        </div>
-                        <div class="layui-card-body ">
-                            <script type="text/html" id="barDemo">
-                                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                            </script>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
+
             <br>
-            <div style="padding: 15px;">技术分类主体区域</div>
-            <form class="layui-form layui-form-pane" id="layui-form">
+            <div style="padding-left: 20%;font-size:30px;padding-bottom: 20px ">添加技术分类</div>
+
+            <form class="layui-form layui-form-pane" action="" id="layui-form" style="padding-left: 20%">
                 <div class="layui-form-item">
                     <label class="layui-form-label">技术分类名</label>
                     <div class="layui-input-inline">
                         <input type="text" name="gname" lay-verify="title" placeholder="请输入名称" autocomplete="off"
-                               class="layui-input">
+                               class="layui-input" id="gname">
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">提交时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="test1" name="created">
+                        </div>
                     </div>
                 </div>
+
+                <div class="layui-form-item layui-form-text" style="width: 70%">
+                    <label class="layui-form-label">技术介绍</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="技术介绍" class="layui-textarea" name="gcontent" id="gcontent"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text" style="width: 70%">
+                    <label class="layui-form-label">svg代码</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="svg代码width和height为50最佳,svg为矢量图标" class="layui-textarea" name="gsvg" id="gsvg"></textarea>
+                    </div>
+                </div>
+
                 <div class="layui-form-item">
                     <button class="layui-btn layui-bg-cyan" id="layui-btn" lay-submit="" lay-filter="demo2">提交</button>
                 </div>
@@ -43,57 +48,32 @@
     </div>
 </div>
 <script th:src="@{../layui/layui.js}" charset="utf-8"></script>
-<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.js}"></script>
 <script>
-    //JavaScript代码区域
-    layui.use(['form', 'table'], function () {
-        var form = layui.form, table = layui.table;
-        table.render({
-            elem: '#layui-table'
-            , url: '/group/all'
-            , page: false
-            , cols: [
-                [
-                    {field: 'gid', title: '技术编号'}
-                    , {field: 'gname', title: '技术名称'}
-                    , {field: 'created', title: '创建时间'}
-                    ,{title:'操作', align:'center',toolbar: '#barDemo' }
-                ]
-            ]
+    //执行一个laydate实例
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1',
+            format:'yyyy-MM-dd HH:mm:ss'//指定元素
         });
 
-        form.verify({
-            title:function (value) {
-                if (value===""){
-                    return'不能为空';
-                }
+    });
+    $(function () {
+        // layui.use()
+        $("#layui-btn").click(function () {
+            if ($("#gname").val()==''){
+                alert("标题不能为空");
+                form.gname.focus();
+                return false;
             }
-        });
-
-        //监听工具条
-        table.on('tool(member)',function (obj) {
-            var data = obj.data;
-            if (obj.event ==='del'){
-                layer.confirm('是否删除？',function (index) {
-                    $.ajax({
-                        url:"/group/delete",
-                        type: 'get',
-                        data:{gid:data.gid},
-                        success:function (data) {
-                            alert("操作成功");
-                            location.reload();
-                        },
-                    });
-                });
-            }
-        });
-
-        form.on('submit(demo2)', function (data) {
             $.ajax({
-                url: '/group/add',
-                type: 'post',
-                data: $("#layui-form ").serialize(),
-                success: function (data) {
+                url:"/group/add",
+                type:"POST",
+                async: false,
+                data:$("#layui-form").serialize(),
+                success:function (data) {
                     if (data.msg == "操作成功") {
                         alert("操作成功");
                         location.reload();
@@ -103,9 +83,78 @@
                 }
             });
             return false;
-        })
+        });
 
     });
+    //JavaScript代码区域
+    // layui.use(['form', 'table'], function () {
+    //     var form = layui.form, table = layui.table;
+    //     table.render({
+    //         elem: '#layui-table'
+    //         , url: '/group/all'
+    //         , page: false
+    //         , cols: [
+    //             [
+    //                 {field:'code',title:"值"}
+    //             ],
+    //             [
+    //                 {field:'msg',title:'操作状态'}
+    //             ],
+    //             [
+    //                 {field: 'gid', title: '技术编号'}
+    //                 , {field: 'gname', title: '技术名称'}
+    //                 , {field: 'created', title: '创建时间'}
+    //                 , {field: 'gcontent', title: '内容'}
+    //                 , {field: 'gsvg', title: '内容'}
+    //                 ,{title:'操作', align:'center',toolbar: '#barDemo' }
+    //             ]
+    //         ]
+    //     });
+    //
+    //     form.verify({
+    //         title:function (value) {
+    //             if (value===""){
+    //                 return'不能为空';
+    //             }
+    //         }
+    //     });
+    //
+    //     //监听工具条
+    //     table.on('tool(member)',function (obj) {
+    //         var data = obj.data;
+    //         if (obj.event ==='del'){
+    //             layer.confirm('是否删除？',function (index) {
+    //                 $.ajax({
+    //                     url:"/group/delete",
+    //                     type: 'get',
+    //                     data:{gid:data.gid},
+    //                     success:function (data) {
+    //                         alert("操作成功");
+    //                         location.reload();
+    //                     },
+    //                 });
+    //             });
+    //         }
+    //     });
+    //
+    //     form.on('submit(demo2)', function (data) {
+    //         $.ajax({
+    //             url: '/group/add',
+    //             type: 'post',
+    //             data: $("#layui-form ").serialize(),
+    //             success: function (data) {
+    //                 if (data.msg == "操作成功") {
+    //                     alert("操作成功");
+    //                     location.reload();
+    //                 } else {
+    //                     alert("添加失败");
+    //                 }
+    //             }
+    //         });
+    //         return false;
+    //     })
+    //
+    // });
 
 </script>
 </body>

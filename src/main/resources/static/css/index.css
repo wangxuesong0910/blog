@@ -1,166 +1,712 @@
-html {
-    height: 100%;
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body{
+  height: 100%;
+  width: auto;
+  background: #f3f0ec;
+}
+.active{
+  display: flex !important;
+}
+div.header{
+  background: #ffffff;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  box-shadow: 0 3px 6px 0 #888888;
+
+  box-sizing: border-box;
+  z-index: 1041;
+}
+.header_main{
+  background: #ffffff;
+  padding: 0px;
+  margin: 0px;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    background: linear-gradient(to bottom, #202020, #111119);
+.brand{
+  margin: 0;
+  display: flex;
+  height: auto;
+}
+.brand_logo{
+  height: 60px;
+  width: 240px;
+} 
+.brand_logo img{
+  width: 220px;
+  height: 60px;
+  margin-left: 16px;
+}
+.header_nav{
+  padding: 0;
+  margin: 0 auto;
+  flex: 1 0 50%;
+  height: 60px;
+}
+.main_menu .nav{
+  display: block;
+  margin: 0;
+}
+ol,ul{
+  list-style: none;
+}
+.main_menu .nav li{
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  display: inline-block;
+  position: relative;
+  padding-left: 10px;
+}
+/* 此处为导航栏的标题样式，为链接和span */
+.nav li a,.nav li span{
+  display: flex;
+  align-items: center;
+  height: 61px;
+  text-decoration: none;
+  margin-top: -1px;
+  color: #161616;
+  cursor: pointer;
+}
+.nav li span:hover{
+  text-decoration: none;
+  color: #e5322d;
 }
 
-.rain {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
+.ico{
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  display: block;
+}
+.ico-down{
+  background: url(/images/icon/icon-down.svg);
+}
+i{
+  font-style: italic;
+}
+/* 此处是导航栏子栏的图标基本定义 */
+.ico-base{
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  display: block;
+}
+/* ---------------------------------------------- */
+/* 导航栏下拉框的基础格式，后面的所有格式需要再次覆盖原样式 */
+ .nav li.dropdown .dropdown-menu-base{
+  display: none;
+  margin: 0;
+  border-radius: 0;
+  height: auto;
+  width: 160px;
+  /* 导航栏下拉框的样式，规定了阴影和颜色 */
+  box-shadow: 0 3px 6px 0 rgb(50 50 50 / 30%) ;
+   z-index: 100;
+}
+ .nav li.dropdown ul.dropdown-menu-base>li{
+  flex:1 0 10%;
+  margin-bottom: 20px;
+}
+ .nav li ul li{
+  display: block;
+}
+ .nav li.dropdown ul.dropdown-menu-base ul{
+  display: block;
+  position: relative;
+  height: auto;
+  top: 1px;
+  box-shadow: none;
+  padding: 0;
+}
+ .nav li.dropdown ul.dropdown-menu-base ul li{
+  font-weight: 400;
+  height: auto;
+  width: auto;
+  display: flex;
+}
+ .nav li.dropdown ul.dropdown-menu-base ul li span{
+  width: auto;
+}
+/* 鼠标悬停出现下拉列表ul */
+.header_nav .nav li:hover ul.dropdown-menu-base{
+  display: flex;
+}
+/* ---------------------------- */
+
+
+/* 导航栏Java处的图片，样式为dropdown-menu-base */
+.main_menu .nav li.dropdown .dropdown-menu-java{
+  display: none;
+}
+.ico-javabase{
+  background: url(../images/icon/JavaSE.svg);
+}
+.ico-java{
+  background: url(../images/icon/JavaEE.svg);
+}
+.ico-jvm{
+  background: url(../images/icon/JVM.svg);
+}
+.ico-design{
+  background: url(../images/icon/design.svg);
 }
 
-.rain.back-row {
-    display: none;
-    z-index: 1;
-    bottom: 60px;
-    opacity: 0.5;
+/* 此处为导航栏sql的样式开始处 */
+.main_menu .nav li.dropdown .dropdown-menu-sql{
+  /* display：flex 则为显示，可在js中调用方法将其鼠标焦点在当前标题变为block */
+  display: none;
+  width: 160px;
+
+}
+.ico-mysql{
+  width: 34px;
+  background: url(../images/icon/my-SQL.svg);
+}
+.ico-mybatis{
+  width: 36px;
+  background: url(../images/icon/mybatis.svg);
+}
+.ico-redis{
+  width: 36px;
+  background: url(../images/icon/redis.svg);
 }
 
-body.back-row-toggle .rain.back-row {
-    display: block;
+
+
+/* 此处是导航栏web的样式 开始处*/
+.main_menu .nav li.dropdown .dropdown-menu-web{
+  display: none;
+  width: 400px;
+}
+.ico-html{
+  background: url(../images/icon/html.svg);
+}
+.ico-css{
+  background: url(../images/icon/css.svg);
+}
+.ico-js{
+  background: url(../images/icon/js.svg);
+}
+.ico-jquery{
+  background: url(../images/icon/jQuery.svg);
+}
+.ico-vue{
+  background: url(../images/icon/vue.svg);
+}
+.ico-tomcat{
+  background: url(../images/icon/tomcat.svg);
+}
+.ico-jsp{
+  background: url(../images/icon/jsp.svg);
+}
+.ico-servlet{
+  background: url(../images/icon/servlet.svg);
+}
+.ico-nodejs{
+  background: url(../images/icon/nodejs.svg);
 }
 
-.drop {
-    position: absolute;
-    bottom: 100%;
-    width: 15px;
-    height: 120px;
-    pointer-events: none;
-    animation: drop 0.5s linear infinite;
+/* 此处是导航栏spring全家桶开始处 */
+.main_menu .nav li.dropdown .dropdown-menu-spring{
+  display: none;
+  width: 180px;
+}
+.ico-spring{
+  background: url(../images/icon/spring.svg);
+}
+.ico-springmvc{
+  background: url(../images/icon/springmvc.svg);
+}
+.ico-springboot{
+  background: url(../images/icon/springboot.svg);
+}
+.ico-springcloud{
+  background: url(../images/icon/springcloud.svg);
 }
 
-@keyframes drop {
-    0% {
-        transform: translateY(0vh);
-    }
-    75% {
-        transform: translateY(90vh);
-    }
-    100% {
-        transform: translateY(90vh);
-    }
+/* 此处是导航栏其他技术分类开始处 */
+.main_menu .nav li.dropdown .dropdown-menu-other{
+  display: none;
+  width: 100%;
+  height: auto;
+  left: 0;
+  position: fixed;
+}
+.ico-linux{
+  background: url(../images/icon/linux.svg);
+}
+.ico-ngnix{
+  background: url(../images/icon/ngnix.svg);
+}
+.ico-swagger{
+  background: url(../images/icon/swagger.svg);
+}
+.ico-dubbo{
+  background: url(../images/icon/dubbo.svg);
+}
+.ico-zookeeper{
+  background: url(../images/icon/zookeeper.svg);
+}
+.ico-druid{
+  background: url(../images/icon/druid.svg);
+}
+.ico-shiro{
+  background: url(../images/icon/shiro.svg);
+}
+.ico-github{
+  background: url(../images/icon/github.svg);
+}
+.ico-docker{
+  background: url(../images/icon/docker.svg);
+}
+.ico-harmony{
+  background: url(../images/icon/harmony.svg);
 }
 
-.stem {
-    width: 1px;
-    height: 60%;
-    margin-left: 7px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25));
-    animation: stem 0.5s linear infinite;
+
+
+
+/* 此处为公共样式 */
+ .nav li ul.menu-full--convert{
+  left: auto;
+  padding: 12px 24px 16px;
 }
 
-@keyframes stem {
-    0% {
-        opacity: 1;
-    }
-    65% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 0;
-    }
+ .nav li ul.menu-full{
+  font-size: 14px;
+
+  padding: 12px;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-top: 3px solid #e5322d;
+}
+ .nav li ul {
+  height: 0;
+  background: #ffffff;
+  position: absolute;
+  top: 60px;
+  overflow-x: auto;
 }
 
-.splat {
-    width: 15px;
-    height: 10px;
-    border-top: 2px dotted rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    opacity: 1;
-    transform: scale(0);
-    animation: splat 0.5s linear infinite;
-    display: none;
+/* 此处为导航栏的top-menu处样式 */
+.header .top_menu{
+  width: 60px;
+  height: 60px;
+  justify-content: flex-end;
+}
+.top_menu,.top_menu .nav{
+  margin: 0;
+  padding:0;
+  display: flex;
+}
+.top_menu .nav_item{
+  margin: 0;
+  height: 100%;
+  cursor: pointer;
+  line-height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.ico_topmenu{
+  height: 60px;
+  width: 60px;
+  background: url(../images/icon/all.svg);
+}
+/* 最右侧导航下拉栏的样式 */
+.top_menu .nav li.nav_item .dropdown-menu-all{
+  display: none;
+  width: 160px;
+  position: fixed;
+  right: 0;
+}
+.top_menu .nav li:hover ul.dropdown-menu-base{
+  display: flex;
+}
+.ico-download{
+  margin-right: 5px;
+  background: url(../images/icon/download.svg);
+}
+.ico-wait{
+  margin-right: 5px;
+  background: url(../images/icon/waiting.svg);
+}
+.ico-wechat{
+  margin-right: 5px;
+  background: url(../images/icon/wechat.svg);
+}
+.ico-care{
+  margin-right: 5px;
+  background: url(../images/icon/care.svg);
 }
 
-body.splat-toggle .splat {
-    display: block;
+/* main主体区域开始处 */
+
+.main{
+  /*margin-top: 60px;*/
+  overflow: hidden;
 }
 
-@keyframes splat {
-    0% {
-        opacity: 1;
-        transform: scale(0);
-    }
-    80% {
-        opacity: 1;
-        transform: scale(0);
-    }
-    90% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1.5);
-    }
+.home-title{
+  position: relative;
+  padding: 45px 45px 100px 45px;
+  text-align: center;
+  background: linear-gradient(90deg,#666699,#999999,#6699cc)#123555;
 }
 
-.toggles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
+.home-title .title{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: #ffffff;
+  max-width: 1100px;
+}
+.title{
+  font-size: 42px;
+  letter-spacing: 0;
+  font-weight: 600;
+  line-height: 40px;
+}
+.home-title .subtitle{
+  color: #ffffff;
+  max-width: 980px;
+  margin: auto auto 28px;
+}
+.subtitle{
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 32px;
 }
 
-.toggle {
-    position: absolute;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    line-height: 51px;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
+
+.tools{
+  display: block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-wrap: wrap;
+  padding: 0 68px 42px;
+}
+
+.home .tools-container{
+  margin-top: -80px;
+}
+.tools-container{
+  display: flex;
+  background: #ffffff;
+  border-left: 1px solid #f6f6f8;
+  border-top: 1px solid #f6f6f8;
+  width: 100%;
+  flex-wrap: wrap;
+  position: relative;
+  box-shadow: 0 2px 10px 0 rgb(0 0 0 / 10%);
+}
+
+.tools-item{
+  display: flex;
+  flex: 0 0 16.666%;
+  color: #383e45;
+
+  border-bottom: 1px solid #f6f6f8;
+  position: relative;
+  overflow: hidden;
+  transition: all .4s ease-out;
+  z-index: 1;
+}
+.tools-item a{
+  display: block;
+  border-right: 1px solid #f6f6f8;
+  width: 100%;
+  padding: 34px;
+  color: #383e45;
+  position: relative;
+  z-index: 2;
+}
+a,a:hover{
+  text-decoration: none;
+}
+
+.tools-item h3{
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0;
+  color: #383e45;
+  margin-bottom: 9px;
+}
+.tools-item-content{
+  font-size: 12px;
+  line-height: 16px;
+  color: #626870;
+}
+.tools-item-content p{
+  letter-spacing: .5px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #626870;
+}
+
+/* main，tools-item区域，鼠标移入的图标动画缓慢放大缩小的效果 */
+.tools .tools-container .tools-item a .tools-item-icon svg{
+  transition: all 0.6s;
+}
+.tools .tools-container .tools-item:hover a .tools-item-icon svg{
+  transform: scale(1.5);
+}
+
+.footer-main{
+  background: #f6f6f8;
+  padding-top: 32px;
+  padding-bottom: 23px;
+  border-top: 8px solid #ffffff;
+}
+
+/* 此处开始为具体列表页面的样式 开始处 */
+
+.tools.tools-main{
+  padding: 0 88px 42px;
+}
+
+.tools-container.list-container{
+  max-width: 1200px;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 66px;
+  padding-bottom: 66px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.left-block-element{
+  position: sticky;
+  top: 0;
+  height: 100%;
+
+}
+@media(min-width:992px){
+  .left-block-element{
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media only screen and (min-width:992px){
+  .left-block-element:hover a .list-item{
+    background-color: #f6f6f8;
+    transition: all 0.6s;
+    transform: scale(1.05);
+  }
+}
+
+@media only screen and (min-width:992px){
+  .list-item{
+    padding: 34px 48px;
     cursor: pointer;
-    transition: background-color 0.3s;
+  }
+}
+@media only screen and (max-width:992px){
+  .list-item{
+    padding: 34px 48px;
+    cursor: pointer;
+  }
 }
 
-.toggle:hover {
-    background-color: rgba(255, 255, 255, 0.25);
+.list-item{
+  flex:0 1 50%;
+  position: relative;
+  border-right: solid #f6f6f8 1px;
+  border-bottom: solid #f6f6f8 1px;
+  cursor: pointer;
 }
 
-.toggle:active {
-    background-color: rgba(255, 255, 255, 0.3);
+
+.list-item-title{
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  color: #3b3e42;
+  margin-bottom: 12px;
+  letter-spacing: 0;
+}
+.list-item-content{
+  max-height: 100px;
+  overflow: hidden;
+}
+.left-block-element:hover a .list-item{
+  background-color: #f6f6f8;
+  transition: all 0.6s;
+  transform: scale(1.05);
+}
+.list-item-content p{
+  font-weight: 300;
+  color: #3b3e42;
+  letter-spacing: 0;
+  line-height: 20px;
 }
 
-.toggle.active {
-    background-color: rgba(255, 255, 255, 0.4);
+.tools.tools-main .load-more{
+  position: relative;
+  width: 50px;
+  height: 45px;
+  background-color: unset;
+  top: -50px;
+  margin-left: 48%;
+  border: 0;
+}
+.tools.tools-main .load-more .ico-load-more{
+  /*display: block;*/
+  width: 50px;
+  height: 45px;
+  /*background-image: url("../images/icon/more.svg");*/
+  transition: height 0.5s;
+}
+.tools.tools-main .load-more .ico-load-more:hover{
+  cursor: pointer;
+  height: 70px;
 }
 
-.splat-toggle {
-    top: 20px;
+
+/* 此处为blog文章页的样式开始处----------- */
+.blog .main{
+  margin-top: 60px;
+  overflow: hidden;
+  width: 100%;
+ 
+}
+.main .blog{
+  align-items: center;
+  position: relative;
+  padding-top: 66px;
+  padding-right: 15%;
+  padding-left: 18%;
+  align-items: center;
+  
+}
+.main .blog .blog-content{
+  position: relative;
+  width: auto;
+  margin: 38px auto;
+  /*padding-left: 24px;*/
+  padding-right: 40px;
+  height: auto;
+  background: #fff;
+  
+}
+.main .blog .blog-content .right-img{
+  position: relative;
+  height: 120px;
+  width: 0;
+  margin-top: 20%;
+  background: #6699cc;
+  /* 三角形样式 */
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 40px solid #ffffff;
 }
 
-.back-row-toggle {
-    top: 90px;
-    line-height: 12px;
-    padding-top: 14px;
+
+
+@media(max-width:90em){
+  .tools-item{
+    font-size: 36px;
+    line-height: 38px;
+    flex: 0 0 20%;
+  }
+}
+@media(max-width:1300px){
+  .tools-item{
+    flex: 0 0 20%;
+  }
+}
+@media(max-width:1280px){
+  .tools-item{
+    flex: 0 0 25%;
+  }
+}
+@media(max-width:960px){
+  .tools-item{
+    flex: 0 0 33.333%;
+  }
+}
+@media(max-width:640px){
+  .tools-item{
+    flex: 0 0 50%;
+  }
 }
 
-.single-toggle {
-    top: 160px;
+@media(min-width:840px){
+  .header .top-menu{
+    order: 3;
+    flex: 0 0 auto;
+  }
 }
-
-body.single-toggle .drop {
+@media(max-width:840px){
+.header_nav{
     display: none;
+  }
+}
+@media(max-width: 2560px){
+  .main_menu .nav li a, .main_menu .nav li span{
+    padding: 0 5px;
+  }
+}
+@media(min-width: 841px){
+  .header .brand{
+    flex: 0 1 140px;
+    margin-right: 4px;
+    justify-content: flex-start;
+    margin-left: 24px;
+  }
+}
+@media(min-width: 841px){
+  .header{
+    height: 60px;
+  }
+}
+@media (max-width: 1290px){
+  .header_main .brand_logo{
+    flex: 0 1 auto;
+  }
+}
+@media(min-width:840px){
+  .header_nav{
+    flex:1 1 0%;   
+  }
+}
+@media(min-width:840px){
+  .main_menu{
+    height: 60px;
+    }
+}
+@media(min-width: 1290px){
+  .header_nav .main_menu .nav li.dropdown{
+    padding-left: 54px;
+  }
 }
 
-body.single-toggle .drop:nth-child(10) {
-    display: block;
-}
+/*
+  联系作者弹出层
+*/
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.ewm{left: 0; width:30px; height:30px;padding:20px;box-sizing:border-box;display:none;z-index: 3;}
+.text_sao{text-align:center;}

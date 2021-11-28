@@ -8,42 +8,60 @@
     <div class="layui-body">
         <div class="layui-container">
             <!-- 内容主体区域 -->
-            <div style="padding: 15px;">后台主页</div>
+<!--            <div style="padding: 15px;">后台主页</div>-->
+
+
+                <div style="padding: 15px 15px 0 15px;"  >分类选择:
+                    <select style="width: 150px;height:25px;margin-left: 10px" name="interest" lay-filter="groups"  id="connectName">
+                    </select>
+                </div>
+
+
+
             <div class="layui-row">
                 <div class="layui-col-md9">
-                    你的内容 9/12
+<!--                    你的内容 9/12-->
 
-                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
-                        <div class="layui-col-md10">
-                            <div class="layui-panel layui-bg-cyan">
-                                <div style="padding: 50px 30px;">一个面板</div>
-                            </div>
-                        </div>
-                    </div>
+                    <table class="layui-table" lay-skin="line">
+                        <colgroup>
+                            <col width="20">
+                            <col>
+                            <col width="90">
+                            <col width="90">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>文章</th>
+                            <th>修改文章</th>
+                            <th>删除文章</th>
+                        </tr>
+                        </thead>
 
-                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
-                        <div class="layui-col-md10">
-                            <div class="layui-card">
-                                <div class="layui-card-header layui-bg-cyan">卡片面板</div>
-                                <div class="layui-card-body">
-                                    卡片式面板面板通常用于非白色背景色的主体内<br>
-                                    从而映衬出边框投影
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <tbody id="content_tbody">
+<!--                        <tr id="content_table">-->
+<!--                            <td id="tid">-->
+<!--                                1-->
+<!--                            </td>-->
+<!--                            <td id="title">-->
+<!--                                文章&&&&&&&&&-->
+<!--                            </td>-->
+<!--                            <td >-->
+<!--                                <button class="layui-btn layui-btn-sm layui-btn-primary">-->
+<!--                                    <i class="layui-icon">&#xe642;</i>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <button class="layui-btn layui-btn-sm layui-btn-primary">-->
+<!--                                    <i class="layui-icon">&#xe640;</i>-->
+<!--                                </button>-->
+<!--                            </td>-->
 
-                    <div class="layui-row layui-col-space15" style="margin-top: 20px;">
-                        <div class="layui-col-md10">
-                            <div class="layui-card">
-                                <div class="layui-card-header layui-bg-cyan">卡片面板</div>
-                                <div class="layui-card-body">
-                                    卡片式面板面板通常用于非白色背景色的主体内<br>
-                                    从而映衬出边框投影
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                        </tr>-->
+
+                        </tbody>
+                    </table>
+
 
                 </div>
 
@@ -52,17 +70,102 @@
     </div>
 </div>
 <script th:src="@{../layui/layui.js}" charset="utf-8"></script>
-<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.js}"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {
         var element = layui.element;
 
+        //查询所有技术分类
+        $.ajax({
+            url:"/group/all",
+            type:"GET",
+            success:function (data) {
+
+                //给一个默认值（‘请选择’）
+                var opt = '<option value=""  disabled="disabled" selected>' + "选择技术分类" + '</option>';
+
+                for (var i=0;i<data.data.length; i++){
+                    //对查询到的技术分类进行html 拼接
+                    opt += '<option value = "' + data.data[i].gid + '" >' + data.data[i].gname + '</option>'
+                }
+                $("#connectName").html(opt);
+                // form.render('select');//需要渲染一下
+
+            },
+            dataType:"json"
+        });
+
     });
 
     $(function () {
 
+        //检测select 选择框 是否有选中的技术分类，
+        $("select").change(function () {
+            //如果用户选中技术分类，将 展示区内容清空
+            $("#content_tbody").empty();
+            //获取到用户选中的技术分类的 value值，即：gid值
+            var gid = $(this).val();
+            console.log(gid);
+            //通过指定的gid值，查询指定的技术分类下的所有文章并拼接
+            $.ajax({
+                url:"/content/queryContentForAdmin",
+                type: "GET",
+                data:{gid:gid},
+                success:function (datas) {
+                    for (var i =0 ;i<datas.data.length;i++){
+                        // console.log("标题："+datas.data[i].title);
+                        // console.log("tid："+datas.data[i].tid);
+                        var html='<tr id="content_table">'+
+                            '<td id="tid">'+datas.data[i].tid+'</td>' +
+                            '<td id="title">'+datas.data[i].title+'</td>'+
+                            '<td >'+
+                                //此处为后台文章列表页面的修改文章 图标点击后的跳转路径
+                            '<a href="/admin/updateContent?tid='+datas.data[i].tid+'"> '+
+                            '<button class="layui-btn layui-btn-sm layui-btn-primary">'+
+                            '<i class="layui-icon">&#xe642;</i>'+
+                            '</button>'+
+                            '</a>'+
+                            '</td>'+
+                            '<td >'+
+                            '<button id="delete" '+'onclick="deleteContent('+datas.data[i].tid+')" '+'class="layui-btn layui-btn-sm layui-btn-primary" >'+
+                            '<i class="layui-icon">&#xe640;</i>'+
+                            '</button>'+
+                            '</td>'+
+                            '</tr>';
+                        $("#content_tbody").append(html);
+
+                    }
+
+
+                }
+            });
+
+
+        });
+
     });
+
+    //删除文章操作
+    function deleteContent(tid){
+       var result = window.confirm("确认删除第："+tid+" 篇文章吗?");
+        if (result ==true){
+            $.ajax({
+                url:"/content/deleteContent",
+                type:"POST",
+                data:{tid:tid},
+                success:function (data) {
+                    if (data.msg == "操作成功") {
+                        alert("操作成功");
+                        location.reload();
+                    } else {
+                        alert("删除失败");
+                    }
+                }
+            });
+        }
+
+    }
 </script>
 </body>
 </html>
